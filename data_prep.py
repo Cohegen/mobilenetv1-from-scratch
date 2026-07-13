@@ -11,36 +11,35 @@ class TransformedSubset(Subset):
         self.transform = transform
 
     def __getitem__(self, idx):
-        # Get the original image and label from the base dataset
-        # The base dataset's transform (base_dataset_transform) should yield PIL images after resize.
+       
+        
         original_image, label = self.dataset[self.indices[idx]]
 
         if self.transform is not None:
             image = self.transform(original_image)
         else:
-            image = original_image # If no specific transform, use original
+            image = original_image 
         return image, label
 
-    # Required for DataLoader to work correctly when __getitem__ is overridden in Subset
+    
     def __getitems__(self, indices):
         return [self.__getitem__(idx) for idx in indices]
 
 def get_dataloaders(dataset_path: str, image_size: int, batch_size: int, num_workers: int, seed: int = 42):
-    # Define transforms for clarity, making them specific to the splitting strategy
+    
 
-    # Transforms for the base dataset before splitting (only resize, keeps as PIL)
-    # This is applied to `full_dataset` before `random_split`.
+    # Transforms for the base dataset before splitting 
     base_dataset_transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
     ])
 
-    # Full transform for training data (includes augmentation, then ToTensor and Normalize)
+    # Full transform for training data
     train_full_transform = transforms.Compose([
-        transforms.RandomResizedCrop(image_size), # Added data augmentation
+        transforms.RandomResizedCrop(image_size),
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(15), # Added data augmentation
-        transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1), # Re-added ColorJitter for better generalization
-        transforms.RandomPerspective(distortion_scale=0.2, p=0.5), # Added RandomPerspective
+        transforms.RandomRotation(15), 
+        transforms.ColorJitter(brightness=0.1, contrast=0.1, saturation=0.1, hue=0.1), 
+        transforms.RandomPerspective(distortion_scale=0.2, p=0.5), 
         transforms.ToTensor(),
         transforms.Normalize(
             mean=(0.485, 0.456, 0.406),
