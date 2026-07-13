@@ -1,13 +1,13 @@
 import torch
 import torch.nn as nn
 from tqdm.auto import tqdm
-import copy # Import copy module for deepcopy
+import copy # Importing copy module for deepcopy
 
 def train_step(model: torch.nn.Module,
                    dataloader: torch.utils.data.DataLoader,
                    loss_fn: torch.nn.Module,
                    optimizer: torch.optim.Optimizer,device: torch.device):
-    # Put model in train mode
+    # Putting model in train mode
     model.train()
 
     # Setup train loss and train accuracy values
