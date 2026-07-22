@@ -116,15 +116,36 @@ MobilenetV1/
 ├── model.py             # MobileNetV1 architecture and DepthwiseConvBlock definitions
 ├── data_prep.py         # Data preprocessing, data augmentation & DataLoader pipeline
 ├── train_utils.py       # Training, validation, testing loops & early stopping engine
-├── MobilenetV1.ipynb    # Interactive Jupyter notebook execution
-└── readme.md            # Comprehensive project documentation & API reference
+├── train.py             # Main CLI execution entry script
+└── README.md            # Comprehensive project documentation & API reference
 ```
 
 ---
 
 ## 🧩 Module Overview & API Reference
 
-### 1. `model.py` — Network Architecture
+### 1. `train.py` — Main CLI Entry Point
+
+Executes the complete training workflow via CLI arguments or programmatically via its `main()` function.
+
+```bash
+python train.py --dataset_path ./data --epochs 25 --batch_size 32 --lr 0.001
+```
+
+#### Supported CLI Parameters:
+- `--dataset_path` (str, default: `./data`): Path to ImageFolder root directory.
+- `--image_size` (int, default: `224`): Target square image resolution.
+- `--batch_size` (int, default: `32`): Batch size.
+- `--num_workers` (int, default: `2`): DataLoader worker threads.
+- `--epochs` (int, default: `25`): Maximum training epochs.
+- `--lr` (float, default: `1e-3`): Learning rate for Adam optimizer.
+- `--patience` (int, default: `7`): Early stopping patience epochs.
+- `--seed` (int, default: `42`): Seed for random generator reproducible splitting.
+- `--device` (str, default: auto): Computing device (`cuda` or `cpu`).
+
+---
+
+### 2. `model.py` — Network Architecture
 
 Defines the core neural network layers based on the MobileNetV1 paper (*Howard et al., 2017*).
 
